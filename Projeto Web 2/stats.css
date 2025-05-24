@@ -1,0 +1,29 @@
+.small-box {
+    border: none;
+    border-radius: 0.75rem;
+    transition: transform 0.2s;
+  }
+  
+  .small-box:hover {
+    transform: scale(1.03);
+  }
+  
+  .world-summary h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+  
+  .world-summary .card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .world-summary .card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
