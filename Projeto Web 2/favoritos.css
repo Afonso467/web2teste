@@ -1,0 +1,74 @@
+body {
+  background-color: #f4f6f9;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+header {
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+main h2 {
+  color: #0d6efd;
+  font-weight: 700;
+}
+
+#fav-country {
+  max-width: 400px;
+  margin-bottom: 0.5rem;
+}
+
+button.btn-primary {
+  width: 100%;
+  max-width: 400px;
+}
+
+#favorites-list {
+  margin-top: 20px;
+}
+
+#favorites-list li {
+  background-color: #ffffff;
+  border: 1px solid #dee2e6;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+#favorites-list li:hover {
+  background-color: #f1f3f5;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.favorite-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.favorite-info img {
+  width: 40px;
+  height: 30px;
+  object-fit: cover;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.favorite-info h6 {
+  margin: 0;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #343a40;
+}
+
+#favorites-list button {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+}
+
+#favorites-list .btn-warning {
+  margin-right: 0.5rem;
+}
