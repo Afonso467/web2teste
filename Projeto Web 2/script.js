@@ -183,7 +183,7 @@ function removerDosFavoritos(countryName) {
   localStorage.setItem('favorites', JSON.stringify(favoritos));
 }
 
-// ESTÁ SHIT É O QUE MOSTRA O ALERTAAAAAA
+// ESTÁ SHIT É O QUE MOSTRA O ALERTAAAAAAAA
 function showToast(message, bgColor = 'primary') {
   let toastEl = document.getElementById('liveToast');
   let toastMessage = document.getElementById('toast-message');
