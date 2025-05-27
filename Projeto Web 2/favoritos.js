@@ -40,6 +40,32 @@ async function renderFavorites() {
   }
 }
 
+function showToast(message, type = 'success', delay = 3000) {
+  const toastContainer = document.getElementById('toast-container');
+  const toastId = `toast-${Date.now()}`;
+
+  const toastHTML = `
+    <div id="${toastId}" class="toast align-items-center text-bg-${type} border-0" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body">
+          ${message}
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+    </div>`;
+
+  toastContainer.insertAdjacentHTML('beforeend', toastHTML);
+
+  const toastElement = document.getElementById(toastId);
+  const bsToast = new bootstrap.Toast(toastElement, { delay: delay });
+  bsToast.show();
+
+  toastElement.addEventListener('hidden.bs.toast', () => {
+    toastElement.remove();
+  });
+}
+
+
 async function addFavorite() {
   const country = document.getElementById('fav-country').value.trim();
   if (country && !favorites.some(fav => fav.country.toLowerCase() === country.toLowerCase())) {
@@ -47,14 +73,19 @@ async function addFavorite() {
     localStorage.setItem('favorites', JSON.stringify(favorites));
     await renderFavorites();
     document.getElementById('fav-country').value = '';
+    showToast(`País "${country}" adicionado aos favoritos!`, 'success');
+  } else if (country) {
+    showToast(`O país "${country}" já está na lista de favoritos.`, 'warning');
   }
 }
 
 async function deleteFavorite(index) {
-  favorites.splice(index, 1);
+  const removed = favorites.splice(index, 1)[0];
   localStorage.setItem('favorites', JSON.stringify(favorites));
   await renderFavorites();
+  showToast(`País "${removed.country}" removido dos favoritos.`, 'danger');
 }
+
 
 async function editFavorite(index) {
   const fav = favorites[index];
@@ -67,3 +98,4 @@ async function editFavorite(index) {
 }
 
 renderFavorites();
+

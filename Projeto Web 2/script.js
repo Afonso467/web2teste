@@ -110,6 +110,33 @@ function showDetails(country) {
     `);
   }
 
+  // ISTO É BASICO MAS ELE VERIFICA SE ESTÁ NOS FAVORITOS OU NÃO AFONSOOOO
+  function estaNosFavoritos(nomePais) {
+    const favoritos = JSON.parse(localStorage.getItem('favorites')) || [];
+    return favoritos.some(fav => fav.country.toLowerCase() === nomePais.toLowerCase());
+  }
+
+  // ATUALIZA O BOTÃO NO POP-UP AFONSOOO SEM PRECISARES DE SAIR DELE E VOLTAR 
+  function atualizarBotaoFavorito() {
+    const btn = document.getElementById('favorite-btn');
+    if (!btn) return;
+
+    if (estaNosFavoritos(country.name.common)) {
+      btn.textContent = '❌ Remover dos Favoritos';
+      btn.classList.remove('btn-warning');
+      btn.classList.add('btn-danger');
+    } else {
+      btn.textContent = '⭐ Adicionar aos Favoritos';
+      btn.classList.remove('btn-danger');
+      btn.classList.add('btn-warning');
+    }
+  }
+
+  const jaEstaNosFavoritos = estaNosFavoritos(country.name.common);
+  const botaoFavorito = jaEstaNosFavoritos
+    ? `<button id="favorite-btn" class="btn btn-danger mt-3">❌ Remover dos Favoritos</button>`
+    : `<button id="favorite-btn" class="btn btn-warning mt-3">⭐ Adicionar aos Favoritos</button>`;
+
   const modalBody = document.querySelector('#countryModal .modal-body');
   modalBody.innerHTML = `
     <h2>${country.name.common}</h2>
@@ -121,11 +148,71 @@ function showDetails(country) {
     <p><strong>Região:</strong> ${country.region}</p>
     <p><strong>Sub-região:</strong> ${country.subregion || 'N/A'}</p>
     <p><strong>Línguas:</strong> ${country.languages ? Object.values(country.languages).join(', ') : 'N/A'}</p>
+    ${botaoFavorito}
   `;
+
+  // ATUALIZA O BOTÃO E MOSTRA O ALERTAAAA AFONSOOOO
+  document.getElementById('favorite-btn').onclick = () => {
+    if (estaNosFavoritos(country.name.common)) {
+      removerDosFavoritos(country.name.common);
+      showToast('País removido dos favoritos!', 'danger');
+    } else {
+      adicionarAosFavoritos(country.name.common);
+      showToast('País adicionado aos favoritos!', 'success');
+    }
+    atualizarBotaoFavorito();
+    renderFavorites(); 
+  };
 
   const modal = new bootstrap.Modal(document.getElementById('countryModal'));
   modal.show();
 }
+
+
+function adicionarAosFavoritos(countryName) {
+  let favoritos = JSON.parse(localStorage.getItem('favorites')) || [];
+  if (!favoritos.some(fav => fav.country.toLowerCase() === countryName.toLowerCase())) {
+    favoritos.push({ country: countryName });
+    localStorage.setItem('favorites', JSON.stringify(favoritos));
+  }
+}
+
+function removerDosFavoritos(countryName) {
+  let favoritos = JSON.parse(localStorage.getItem('favorites')) || [];
+  favoritos = favoritos.filter(fav => fav.country.toLowerCase() !== countryName.toLowerCase());
+  localStorage.setItem('favorites', JSON.stringify(favoritos));
+}
+
+// ESTÁ SHIT É O QUE MOSTRA O ALERTAAAAAA
+function showToast(message, bgColor = 'primary') {
+  let toastEl = document.getElementById('liveToast');
+  let toastMessage = document.getElementById('toast-message');
+
+  if (!toastEl) {
+    document.body.insertAdjacentHTML('beforeend', `
+      <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1100">
+        <div id="liveToast" class="toast align-items-center text-bg-${bgColor} border-0" role="alert" aria-live="assertive" aria-atomic="true">
+          <div class="d-flex">
+            <div class="toast-body" id="toast-message">${message}</div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+          </div>
+        </div>
+      </div>
+    `);
+    toastEl = document.getElementById('liveToast');
+    toastMessage = document.getElementById('toast-message');
+  } else {
+    toastEl.className = `toast align-items-center text-bg-${bgColor} border-0`;
+    toastMessage.textContent = message;
+  }
+
+  const toast = new bootstrap.Toast(toastEl);
+  toast.show();
+}
+
+
+
+
 
 searchInput.addEventListener('input', () => {
   const term = searchInput.value.toLowerCase();
