@@ -32,7 +32,6 @@ async function renderFavorites() {
             <h6 class="mb-0">${countryData.name}</h6>
           </div>
           <div>
-            <button class="btn btn-sm btn-warning me-2" onclick="editFavorite(${i})">Editar</button>
             <button class="btn btn-sm btn-danger" onclick="deleteFavorite(${i})">Eliminar</button>
           </div>
         </li>`;
