@@ -29,10 +29,10 @@ async function renderFavorites() {
         <li class="list-group-item d-flex justify-content-between align-items-start">
           <div class="favorite-info">
             <img src="${countryData.flag}" alt="Bandeira de ${countryData.name}" />
-            <h6>${countryData.name}</h6>
+            <h6 class="mb-0">${countryData.name}</h6>
           </div>
           <div>
-            <button class="btn btn-sm btn-warning" onclick="editFavorite(${i})">Editar</button>
+            <button class="btn btn-sm btn-warning me-2" onclick="editFavorite(${i})">Editar</button>
             <button class="btn btn-sm btn-danger" onclick="deleteFavorite(${i})">Eliminar</button>
           </div>
         </li>`;
@@ -47,17 +47,15 @@ function showToast(message, type = 'success', delay = 3000) {
   const toastHTML = `
     <div id="${toastId}" class="toast align-items-center text-bg-${type} border-0" role="alert" aria-live="assertive" aria-atomic="true">
       <div class="d-flex">
-        <div class="toast-body">
-          ${message}
-        </div>
-        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        <div class="toast-body">${message}</div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
       </div>
     </div>`;
 
   toastContainer.insertAdjacentHTML('beforeend', toastHTML);
 
   const toastElement = document.getElementById(toastId);
-  const bsToast = new bootstrap.Toast(toastElement, { delay: delay });
+  const bsToast = new bootstrap.Toast(toastElement, { delay });
   bsToast.show();
 
   toastElement.addEventListener('hidden.bs.toast', () => {
@@ -65,27 +63,12 @@ function showToast(message, type = 'success', delay = 3000) {
   });
 }
 
-
-async function addFavorite() {
-  const country = document.getElementById('fav-country').value.trim();
-  if (country && !favorites.some(fav => fav.country.toLowerCase() === country.toLowerCase())) {
-    favorites.push({ country });
-    localStorage.setItem('favorites', JSON.stringify(favorites));
-    await renderFavorites();
-    document.getElementById('fav-country').value = '';
-    showToast(`País "${country}" adicionado aos favoritos!`, 'success');
-  } else if (country) {
-    showToast(`O país "${country}" já está na lista de favoritos.`, 'warning');
-  }
-}
-
 async function deleteFavorite(index) {
   const removed = favorites.splice(index, 1)[0];
   localStorage.setItem('favorites', JSON.stringify(favorites));
   await renderFavorites();
-  showToast(`País "${removed.country}" removido dos favoritos.`, 'danger');
+  showToast(`"${removed.country}" removido dos favoritos.`, 'danger');
 }
-
 
 async function editFavorite(index) {
   const fav = favorites[index];
@@ -94,8 +77,8 @@ async function editFavorite(index) {
     favorites[index] = { country: newCountry.trim() };
     localStorage.setItem('favorites', JSON.stringify(favorites));
     await renderFavorites();
+    showToast(`País atualizado para "${newCountry}".`);
   }
 }
 
 renderFavorites();
-
