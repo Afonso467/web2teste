@@ -1,10 +1,13 @@
+
+
+
 .region-box {
   position: absolute;
   width: 10%;
   height: 10%;
   cursor: pointer;
   z-index: 2;
-  background-color: rgba(255, 255, 255, 0.1); 
+  /* background-color: rgba(255, 255, 255, 0.1);  */
 }
 
 @media (max-width: 768px) {

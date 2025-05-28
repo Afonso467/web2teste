@@ -1,5 +1,19 @@
 /*Página Estatísticas e HomePage*/
+body {
+  background-color: white;
+  color: black;
+  transition: background-color 0.3s, color 0.3s;
+}
 
+body.dark-mode {
+  background-color: #121212;
+  color: white;
+}
+
+.toogle-button {
+  border: none;
+  border-radius: 30px;
+}
 .container-bst {
     padding: 0 15px;
     width: 100%;
