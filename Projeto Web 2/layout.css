@@ -1,8 +1,16 @@
 /*Página Estatísticas e HomePage*/
-body {
-  background-color: white;
+html, body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+    background-color: white;
   color: black;
   transition: background-color 0.3s, color 0.3s;
+}
+
+main {
+  flex: 1;
 }
 
 body.dark-mode {
@@ -35,3 +43,7 @@ body.dark-mode {
 .logo{
   width: 50px;
 }
+
+
+
+
